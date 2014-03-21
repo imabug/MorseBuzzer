@@ -29,7 +29,7 @@ namespace MorseBuzzer
       scale.Add("h", 0u);
 
       // Tweak the value of beatsPerMinute to change the Morse code speed
-      int beatsPerMinute = 450;
+      int beatsPerMinute = 500;
       // beatTimeInMilliseconds == one dit length
       int beatTimeInMilliseconds = 60000 / beatsPerMinute;
       int pauseTimeInMilliseconds = (int)(beatTimeInMilliseconds * 0.1);
@@ -66,9 +66,9 @@ namespace MorseBuzzer
             break;
         }
       }
-      // Pause for 1 dit after the character
+      // Pause for 3 dits after the character
       spkr.SetDutyCycle(0);
-      Thread.Sleep(beatTimeInMilliseconds);
+      Thread.Sleep(beatTimeInMilliseconds*3);
     }
 
     public static void Main()
