@@ -43,4 +43,7 @@
     <Reference Include="SecretLabs.NETMF.Hardware.Netduino" />
     <Reference Include="SecretLabs.NETMF.Hardware.PWM, Version=4.2.2.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
 </Project>

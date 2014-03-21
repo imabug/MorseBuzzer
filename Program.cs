@@ -10,54 +10,9 @@ namespace MorseBuzzer
 {
   public class Program
   {
-    public static void Main()
+    private static void buzz(PWM spkr, string a, string n)
     {
-      // Text to Morse code conversion table
-      Hashtable morse = new Hashtable();
-
-      morse.Add('a', "a1a3");
-      morse.Add('b', "a3a1a1a1");
-      morse.Add('c', "a3a1a3a1");
-      morse.Add('d', "a3a1a1");
-      morse.Add('e', "a1");
-      morse.Add('f', "a1a1a3a1");
-      morse.Add('g', "a3a3a1");
-      morse.Add('h', "a1a1a1a1");
-      morse.Add('i', "a1a1");
-      morse.Add('j', "a1a3a3a3");
-      morse.Add('k', "a3a1a3");
-      morse.Add('l', "a1a3a1a1");
-      morse.Add('m', "a3a3");
-      morse.Add('n', "a3a1");
-      morse.Add('o', "a3a3a3");
-      morse.Add('p', "a1a3a3a1");
-      morse.Add('q', "a3a3a1a3");
-      morse.Add('r', "a1a3a1");
-      morse.Add('s', "a1a1a1");
-      morse.Add('t', "a3");
-      morse.Add('u', "a1a1a3");
-      morse.Add('v', "a1a1a1a3");
-      morse.Add('w', "a1a3a3");
-      morse.Add('x', "a3a1a1a3");
-      morse.Add('y', "a3a1a3a3");
-      morse.Add('z', "a3a3a1a1");
-      morse.Add('0', "a3a3a3a3a3");
-      morse.Add('1', "a1a3a3a3a3");
-      morse.Add('2', "a1a1a3a3a3");
-      morse.Add('3', "a1a1a1a3a3");
-      morse.Add('4', "a1a1a1a1a3");
-      morse.Add('5', "a1a1a1a1a1");
-      morse.Add('6', "a3a1a1a1a1");
-      morse.Add('7', "a3a3a1a1a1");
-      morse.Add('8', "a3a3a3a1a1");
-      morse.Add('9', "a3a3a3a3a1");
-      morse.Add(' ', " ");
-      morse.Add('.', "a1a3a1a3a1a3");
-      morse.Add(',', "a3a3a1a1a3a3");
-      morse.Add('?', "a1a1a3a3a1a1");
-      morse.Add('!', "a3a1a3a1a3a3");
-      morse.Add('/', "a3a1a1a3a1");
-
+      // Most of this code is stolen^H^H^H^H^H^Htaken from Getting Started with Netduino
       // Hashtable to store the notes
       Hashtable scale = new Hashtable();
 
@@ -73,12 +28,101 @@ namespace MorseBuzzer
       scale.Add("E", 758u);
       scale.Add("h", 0u);
 
-      // Text to play in Morse code. Change this to whatever you want
-      string morseText = "ab4ug";
-
-      int beatsPerMinute = 500;
+      // Tweak the value of beatsPerMinute to change the Morse code speed
+      int beatsPerMinute = 450;
+      // beatTimeInMilliseconds == one dit length
       int beatTimeInMilliseconds = 60000 / beatsPerMinute;
       int pauseTimeInMilliseconds = (int)(beatTimeInMilliseconds * 0.1);
+      uint noteDuration = (uint)scale[n];
+
+      foreach (char sym in a)
+      {
+        switch (sym)
+        {
+          case '.':
+            // Play a dit
+            spkr.SetPulse(noteDuration * 2, noteDuration);
+            Thread.Sleep(beatTimeInMilliseconds - pauseTimeInMilliseconds);
+
+            // pause for 1/10th of a beat
+            spkr.SetDutyCycle(0);
+            Thread.Sleep(pauseTimeInMilliseconds);
+            break;
+          case '-':
+            // Play a dah
+            spkr.SetPulse(noteDuration * 2, noteDuration);
+            Thread.Sleep(beatTimeInMilliseconds * 3 - pauseTimeInMilliseconds);
+
+            // pause for 1/10th of a beat
+            spkr.SetDutyCycle(0);
+            Thread.Sleep(pauseTimeInMilliseconds);
+            break;
+          case ' ':
+            // pause for a length of one dit
+            spkr.SetDutyCycle(0);
+            Thread.Sleep(beatTimeInMilliseconds);
+            break;
+          default:
+            break;
+        }
+      }
+      // Pause for 1 dit after the character
+      spkr.SetDutyCycle(0);
+      Thread.Sleep(beatTimeInMilliseconds);
+    }
+
+    public static void Main()
+    {
+      // Text to Morse code conversion table
+      Hashtable morse = new Hashtable();
+
+      morse.Add('a', ".-");
+      morse.Add('b', "-...");
+      morse.Add('c', "-.-.");
+      morse.Add('d', "-..");
+      morse.Add('e', ".");
+      morse.Add('f', "..-.");
+      morse.Add('g', "--.");
+      morse.Add('h', "....");
+      morse.Add('i', "..");
+      morse.Add('j', ".---");
+      morse.Add('k', "-.-");
+      morse.Add('l', ".-..");
+      morse.Add('m', "--");
+      morse.Add('n', "-.");
+      morse.Add('o', "---");
+      morse.Add('p', ".--.");
+      morse.Add('q', "--.-");
+      morse.Add('r', ".-.");
+      morse.Add('s', "...");
+      morse.Add('t', "-");
+      morse.Add('u', "..-");
+      morse.Add('v', "...-");
+      morse.Add('w', ".--");
+      morse.Add('x', "-..-");
+      morse.Add('y', "-.--");
+      morse.Add('z', "--..");
+      morse.Add('0', "-----");
+      morse.Add('1', ".----");
+      morse.Add('2', "..---");
+      morse.Add('3', "...--");
+      morse.Add('4', "....-");
+      morse.Add('5', ".....");
+      morse.Add('6', "-....");
+      morse.Add('7', "--...");
+      morse.Add('8', "---..");
+      morse.Add('9', "----.");
+      morse.Add(' ', " ");
+      morse.Add('.', "·–·–·–");
+      morse.Add(',', "--..--");
+      morse.Add('?', "..--..");
+      morse.Add('!', "-.-.--");
+      morse.Add('/', "-..-.");
+
+      // Text to play in Morse code. Change this to whatever you want
+      string morseText = "ab4ug";
+      // Note to play Morse code in. See the buzz() routine for a list of available notes
+      string note = "a";
 
       PWM speaker = new PWM(Pins.GPIO_PIN_D5);
 
@@ -86,31 +130,12 @@ namespace MorseBuzzer
       {
         foreach (char c in morseText)
         {
-          // Get the Morse "song" corresponding to the current letter
-          string song = (string)morse[c];
-          for (int i = 0; i < song.Length; i += 2)
-          {
-            // Extract the note from the string
-            string note = song.Substring(i, 1);
-            int beatCount = int.Parse(song.Substring(i + 1, 1));
-
-            uint noteDuration = (uint)scale[note];
-
-            // Play the note
-            speaker.SetPulse(noteDuration * 2, noteDuration);
-            Thread.Sleep(beatTimeInMilliseconds * beatCount - pauseTimeInMilliseconds);
-
-            // pause for 1/10th of a beat
-            speaker.SetDutyCycle(0);
-            Thread.Sleep(pauseTimeInMilliseconds);
-          }
-          // Pause for one beat between each character
-          speaker.SetDutyCycle(0);
-          Thread.Sleep(beatTimeInMilliseconds);
+          // Get the Morse "song" corresponding to the current letter and send it to buzz()
+          buzz(speaker, (string)morse[c], note);
         }
-        // Pause for five beats before repeating
+        // Delay 5 seconds before repeating
         speaker.SetDutyCycle(0);
-        Thread.Sleep(beatTimeInMilliseconds * 5);
+        Thread.Sleep(5000);
       }
     }
   }
