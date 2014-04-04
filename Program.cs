@@ -27,65 +27,65 @@ namespace MorseBuzzer
       switch ((int)_rnd.Next(6))
       {
         case 0: // 1x1 call
-          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
-          call.Append(number[_rnd.Next(numberLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen)]);
+          call.Append(number[_rnd.Next(numberLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
           break;
         case 1: // 1x2 call
-          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
-          call.Append(number[_rnd.Next(numberLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen)]);
+          call.Append(number[_rnd.Next(numberLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
           break;
         case 2: // 1x3 call
-          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
-          call.Append(number[_rnd.Next(numberLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen)]);
+          call.Append(number[_rnd.Next(numberLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
           break;
         case 3: // 2x1 call
-          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen)]);
           if (call[0].Equals("a")) // only A[A-L] are valid 2xn calls
           {
             call.Append(letter[_rnd.Next(13)]);
           }
           else
           {
-            call.Append(letter[_rnd.Next(letterLen + 1)]);
+            call.Append(letter[_rnd.Next(letterLen)]);
           }
-          call.Append(number[_rnd.Next(numberLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(number[_rnd.Next(numberLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
           break;
         case 4: // 2x2 call
-          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen)]);
           if (call[0].Equals("a"))
           {
             call.Append(letter[_rnd.Next(13)]);
           }
           else
           {
-            call.Append(letter[_rnd.Next(letterLen + 1)]);
+            call.Append(letter[_rnd.Next(letterLen)]);
           }
-          call.Append(number[_rnd.Next(numberLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(number[_rnd.Next(numberLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
           break;
         case 5: // 2x3 call
         default:
-          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen)]);
           if (call[0].Equals("a"))
           {
             call.Append(letter[_rnd.Next(13)]);
           }
           else
           {
-            call.Append(letter[_rnd.Next(letterLen + 1)]);
+            call.Append(letter[_rnd.Next(letterLen)]);
           }
-          call.Append(number[_rnd.Next(numberLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
-          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(number[_rnd.Next(numberLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
+          call.Append(letter[_rnd.Next(letterLen)]);
           break;
       }
 
@@ -206,7 +206,7 @@ namespace MorseBuzzer
       // Text to play in Morse code. Change this to whatever you want
       // string morseText = "ab4ug";
       // Play the alphabet
-      // string morseText = "abcdefghijklmnopqrstuvwxyz0123456789";
+      string morseText = "abcdefghijklmnopqrstuvwxyz0123456789";
       // Note to play Morse code in. See the buzz() routine for a list of available notes
       string note = "a";
 
@@ -215,7 +215,7 @@ namespace MorseBuzzer
       while (true)
       {
         // Get a random call sign to play
-        string morseText = randCall();
+        // string morseText = randCall();
         foreach (char c in morseText)
         {
           // Get the Morse "song" corresponding to the current letter and send it to buzz()
