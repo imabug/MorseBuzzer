@@ -206,7 +206,7 @@ namespace MorseBuzzer
       // Text to play in Morse code. Change this to whatever you want
       // string morseText = "ab4ug";
       // Play the alphabet
-      string morseText = "abcdefghijklmnopqrstuvwxyz0123456789";
+      // string morseText = "abcdefghijklmnopqrstuvwxyz0123456789";
       // Note to play Morse code in. See the buzz() routine for a list of available notes
       string note = "a";
 
@@ -215,7 +215,7 @@ namespace MorseBuzzer
       while (true)
       {
         // Get a random call sign to play
-        // string morseText = randCall();
+        string morseText = randCall();
         foreach (char c in morseText)
         {
           // Get the Morse "song" corresponding to the current letter and send it to buzz()

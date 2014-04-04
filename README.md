@@ -12,12 +12,12 @@ Morse code speed is adjusted by changing the beatsPerMinute variable. 500 sounds
 TODO
 ====
 * ~~Rewrite sound producing part to make changing the generated tone easier~~
-* Make the random call sign generator work
+* ~~Make the random call sign generator work~~
 
 IDEAS
 =====
 * Generate random letters to play
-* Generate random "call sign" to play
+* ~~Generate random "call sign" to play~~
 * Play the same letter over and over
 * Play the alphabet over and over
 * Adjustable speed using a pot
