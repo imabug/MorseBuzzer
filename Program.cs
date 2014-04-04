@@ -11,78 +11,81 @@ namespace MorseBuzzer
 {
   public class Program
   {
-    private static Random _rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
     private static string randCall()
     {
       // Generate a random "call sign" to play
       // US call sign rules http://wireless.fcc.gov/services/index.htm?job=call_signs_1&id=amateur
+      Random _rnd = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
       string prefix = "aknw";
       string letter = "abcdefghijklmnopqrstuvwxyz";
       string number = "0123456789";
+      int prefixLen = prefix.Length;
+      int letterLen = letter.Length;
+      int numberLen = number.Length;
       StringBuilder call = new StringBuilder();
       // Decide what length of call sign to generate
       switch ((int)_rnd.Next(6))
       {
         case 0: // 1x1 call
-          call.Append(prefix[_rnd.Next(prefix.Length + 1)]);
-          call.Append(number[_rnd.Next(number.Length + 1)]);
-          call.Append(letter[_rnd.Next(letter.Length + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
+          call.Append(number[_rnd.Next(numberLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
           break;
         case 1: // 1x2 call
-          call.Append(prefix[_rnd.Next(prefix.Length + 1)]);
-          call.Append(number[_rnd.Next(number.Length + 1)]);
-          call.Append(letter[_rnd.Next(letter.Length + 1)]);
-          call.Append(letter[_rnd.Next(letter.Length + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
+          call.Append(number[_rnd.Next(numberLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
           break;
         case 2: // 1x3 call
-          call.Append(prefix[_rnd.Next(prefix.Length + 1)]);
-          call.Append(number[_rnd.Next(number.Length + 1)]);
-          call.Append(letter[_rnd.Next(letter.Length + 1)]);
-          call.Append(letter[_rnd.Next(letter.Length + 1)]);
-          call.Append(letter[_rnd.Next(letter.Length + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
+          call.Append(number[_rnd.Next(numberLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
           break;
         case 3: // 2x1 call
-          call.Append(prefix[_rnd.Next(prefix.Length + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
           if (call[0].Equals("a")) // only A[A-L] are valid 2xn calls
           {
             call.Append(letter[_rnd.Next(13)]);
           }
           else
           {
-            call.Append(letter[_rnd.Next(letter.Length + 1)]);
+            call.Append(letter[_rnd.Next(letterLen + 1)]);
           }
-          call.Append(number[_rnd.Next(number.Length + 1)]);
-          call.Append(letter[_rnd.Next(letter.Length + 1)]);
+          call.Append(number[_rnd.Next(numberLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
           break;
         case 4: // 2x2 call
-          call.Append(prefix[_rnd.Next(prefix.Length + 1)]);
+          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
           if (call[0].Equals("a"))
           {
             call.Append(letter[_rnd.Next(13)]);
           }
           else
           {
-            call.Append(letter[_rnd.Next(letter.Length + 1)]);
+            call.Append(letter[_rnd.Next(letterLen + 1)]);
           }
-          call.Append(number[_rnd.Next(number.Length)]);
-          call.Append(letter[_rnd.Next(letter.Length)]);
-          call.Append(letter[_rnd.Next(letter.Length)]);
+          call.Append(number[_rnd.Next(numberLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
           break;
         case 5: // 2x3 call
         default:
-          call.Append(prefix[_rnd.Next(prefix.Length)]);
+          call.Append(prefix[_rnd.Next(prefixLen + 1)]);
           if (call[0].Equals("a"))
           {
             call.Append(letter[_rnd.Next(13)]);
           }
           else
           {
-            call.Append(letter[_rnd.Next(letter.Length + 1)]);
+            call.Append(letter[_rnd.Next(letterLen + 1)]);
           }
-          call.Append(number[_rnd.Next(number.Length)]);
-          call.Append(letter[_rnd.Next(letter.Length)]);
-          call.Append(letter[_rnd.Next(letter.Length)]);
-          call.Append(letter[_rnd.Next(letter.Length)]);
+          call.Append(number[_rnd.Next(numberLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
+          call.Append(letter[_rnd.Next(letterLen + 1)]);
           break;
       }
 
@@ -207,7 +210,7 @@ namespace MorseBuzzer
       // Note to play Morse code in. See the buzz() routine for a list of available notes
       string note = "a";
 
-      // PWM speaker = new PWM(Pins.GPIO_PIN_D5);
+      PWM speaker = new PWM(Pins.GPIO_PIN_D5);
 
       while (true)
       {
@@ -216,10 +219,10 @@ namespace MorseBuzzer
         foreach (char c in morseText)
         {
           // Get the Morse "song" corresponding to the current letter and send it to buzz()
-          // buzz(speaker, (string)morse[c], note);
+          buzz(speaker, (string)morse[c], note);
         }
         // Delay 5 seconds before repeating
-        // speaker.SetDutyCycle(0);
+        speaker.SetDutyCycle(0);
         Thread.Sleep(5000);
       }
     }
